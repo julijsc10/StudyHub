@@ -1,0 +1,2 @@
+# StudyHub
+SEW Abschlussprojekt: StudyHub
