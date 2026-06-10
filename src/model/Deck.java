@@ -22,5 +22,13 @@ public class Deck {
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
 }
 

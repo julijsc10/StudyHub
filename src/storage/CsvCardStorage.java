@@ -4,19 +4,22 @@ import model.Card;
 import model.Deck;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class CsvCardStorage implements CardStorage{
     @Override
     public void saveDeck(Deck deck) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(deck.getName() + ".csv"))) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(deck.getName() + ".csv"))) {
 
             for (Card card : deck.getCards()) {
-                writer.write(card.getQuestion() + ";" + card.getAnswer());
-                writer.newLine();
+                bw.write(card.getQuestion() + ";" + card.getAnswer());
+                bw.newLine();
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -24,18 +27,18 @@ public class CsvCardStorage implements CardStorage{
     public Deck loadDeck(String name) {
         Deck deck = new Deck(name);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(name + ".csv"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(name + ".csv"))) {
 
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (parts.length == 2) {
-                    deck.addCard(new Card(parts[0], parts[1]));
+                    deck.addCard(new Card(parts[0].trim(), parts[1].trim()));
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return deck;
