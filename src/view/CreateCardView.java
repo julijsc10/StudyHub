@@ -13,8 +13,11 @@ import storage.CsvCardStorage;
 
 public class CreateCardView {
 
+     private Deck deck;
+
     public void show() {
-        Deck deck = new Deck("MeinDeck");
+        Label deckNameLabel = new Label("Deckname:");
+        TextField deckNameField = new TextField();
 
         Label questionLabel = new Label("Frage:");
         TextField questionField = new TextField();
@@ -26,6 +29,15 @@ public class CreateCardView {
 
         addButton.setOnAction(e -> {
 
+            if (deck == null) {
+                String deckName = deckNameField.getText();
+                if (deckName.isBlank()) {
+                    System.out.println("Bitte Decknamen eingeben!");
+                    return;
+                }
+                deck = new Deck(deckName);
+            }
+
             String question = questionField.getText();
             String answer = answerField.getText();
 
@@ -35,6 +47,7 @@ public class CreateCardView {
 
             System.out.println("Karte hinzugefügt");
             System.out.println("Anzahl Karten: " + deck.getCards().size());
+
             questionField.clear();
             answerField.clear();
         });
@@ -42,12 +55,18 @@ public class CreateCardView {
         Button saveButton = new Button("Deck speichern");
 
         saveButton.setOnAction(e -> {
+            if (deck == null) {
+                System.out.println("Keine Karten vorhanden!");
+                return;
+            }
             CardStorage storage = new CsvCardStorage();
             storage.saveDeck(deck);
+
+            System.out.println("Deck gespeichert!");
         });
 
         VBox root = new VBox(10);
-        root.getChildren().addAll(questionLabel, questionField, answerLabel, answerField, addButton, saveButton);
+        root.getChildren().addAll(deckNameLabel, deckNameField, questionLabel, questionField, answerLabel, answerField, addButton, saveButton);
 
         Stage stage = new Stage();
         stage.setTitle("Lernkarten erstellen");

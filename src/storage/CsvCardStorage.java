@@ -7,11 +7,12 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class CsvCardStorage implements CardStorage{
     @Override
     public void saveDeck(Deck deck) {
-        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(deck.getName() + ".csv"))) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(deck.getName() + ".csv"), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
 
             for (Card card : deck.getCards()) {
                 bw.write(card.getQuestion() + ";" + card.getAnswer());
