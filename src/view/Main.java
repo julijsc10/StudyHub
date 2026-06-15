@@ -34,7 +34,9 @@ public class Main extends Application {
         });
 
         btnLoad.setOnAction(e -> {
+            LoadDeckView load = new LoadDeckView();
             System.out.println("Deck laden");
+            load.show();
         });
 
         btnQuiz.setOnAction(e -> {
@@ -47,6 +49,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
