@@ -28,26 +28,20 @@ public class CreateCardView {
         Button addButton = new Button("Karte hinzufügen");
 
         addButton.setOnAction(e -> {
-
             String question = questionField.getText();
             String answer = answerField.getText();
 
             Card card = new Card(question, answer);
 
             if (deck == null) {
-
                 String deckName = deckNameField.getText();
-
                 if (deckName.isBlank()) {
                     System.out.println("Bitte Decknamen eingeben!");
                     return;
                 }
-
                 deck = new Deck(deckName);
             }
-
             deck.addCard(card);
-
             deckNameField.setDisable(true);
 
             System.out.println("Karte hinzugefügt");
@@ -60,17 +54,14 @@ public class CreateCardView {
         Button saveButton = new Button("Deck speichern");
 
         saveButton.setOnAction(e -> {
-
             if (deck == null) {
                 System.out.println("Keine Karten vorhanden!");
                 return;
             }
-
             CardStorage storage = new CsvCardStorage();
             storage.saveDeck(deck);
 
             System.out.println("Deck gespeichert!");
-
             deck = null;
 
             deckNameField.clear();
@@ -82,7 +73,6 @@ public class CreateCardView {
 
         VBox root = new VBox(10);
         root.getChildren().addAll(deckNameLabel, deckNameField, questionLabel, questionField, answerLabel, answerField, addButton, saveButton);
-
         Stage stage = new Stage();
         stage.setTitle("Lernkarten erstellen");
         stage.setScene(new Scene(root, 400, 300));

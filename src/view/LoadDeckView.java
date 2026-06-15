@@ -23,23 +23,16 @@ public class LoadDeckView {
         outputArea.setEditable(false);
 
         loadButton.setOnAction(e -> {
-
             String deckName = deckNameField.getText();
-
             if (deckName.isBlank()) {
                 System.out.println("Bitte Decknamen eingeben!");
                 return;
             }
-
             try {
                 CardStorage storage = new CsvCardStorage();
-
                 Deck deck = storage.loadDeck(deckName);
-
                 outputArea.clear();
-
                 outputArea.appendText("Deck: " + deck.getName() + "\n\n");
-
                 for (Card card : deck.getCards()) {
                     outputArea.appendText("Frage: " + card.getQuestion() + "\nAntwort: " + card.getAnswer() + "\n\n");
                 }
@@ -49,11 +42,8 @@ public class LoadDeckView {
         });
 
         VBox root = new VBox(10);
-
         root.getChildren().addAll(deckNameLabel, deckNameField, loadButton, outputArea);
-
         Scene scene = new Scene(root, 500, 400);
-
         Stage stage = new Stage();
         stage.setTitle("Deck laden");
         stage.setScene(scene);
