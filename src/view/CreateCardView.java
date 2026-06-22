@@ -26,21 +26,29 @@ public class CreateCardView {
         TextField answerField = new TextField();
 
         Button addButton = new Button("Karte hinzufügen");
+        Button saveButton = new Button("Deck speichern");
+
+        saveButton.setDisable(true);
 
         addButton.setOnAction(e -> {
-            String question = questionField.getText();
-            String answer = answerField.getText();
+            String question = questionField.getText().trim();
+            String answer = answerField.getText().trim();
 
-            Card card = new Card(question, answer);
+            if (question.isBlank() || answer.isBlank()) {
+                System.out.println("Bitte Frage und Antwort eingeben!");
+                return;
+            }
 
             if (deck == null) {
-                String deckName = deckNameField.getText();
+                String deckName = deckNameField.getText().trim();
                 if (deckName.isBlank()) {
                     System.out.println("Bitte Decknamen eingeben!");
                     return;
                 }
                 deck = new Deck(deckName);
             }
+
+            Card card = new Card(question, answer);
             deck.addCard(card);
             deckNameField.setDisable(true);
 
@@ -49,23 +57,27 @@ public class CreateCardView {
 
             questionField.clear();
             answerField.clear();
+            saveButton.setDisable(false);
         });
-
-        Button saveButton = new Button("Deck speichern");
 
         saveButton.setOnAction(e -> {
             if (deck == null) {
                 System.out.println("Keine Karten vorhanden!");
                 return;
             }
-            CardStorage storage = new CsvCardStorage();
-            storage.saveDeck(deck);
+            try {
+                CardStorage storage = new CsvCardStorage();
+                storage.saveDeck(deck);
+                System.out.println("Deck gespeichert!");
+            } catch (Exception ex) {
+                System.out.println("Fehler beim Speichern!");
+            }
 
-            System.out.println("Deck gespeichert!");
             deck = null;
 
             deckNameField.clear();
             deckNameField.setDisable(false);
+            saveButton.setDisable(true);
 
             questionField.clear();
             answerField.clear();

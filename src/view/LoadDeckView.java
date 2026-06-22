@@ -23,7 +23,7 @@ public class LoadDeckView {
         outputArea.setEditable(false);
 
         loadButton.setOnAction(e -> {
-            String deckName = deckNameField.getText();
+            String deckName = deckNameField.getText().trim();
             if (deckName.isBlank()) {
                 System.out.println("Bitte Decknamen eingeben!");
                 return;
